@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 292942734}
   - component: {fileID: 292942733}
   - component: {fileID: 292942735}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -221,6 +221,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 0.1
+  secondsNotTakeDamage: 0.1
+  hp: 1
+  touchDamage: 1
+  defence: 0
+  touchCollider: {fileID: 0}
+  startElement: {fileID: 1327428297128490721, guid: ce46525bf33d8f6448a398fa1b46ca27, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

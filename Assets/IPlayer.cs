@@ -6,4 +6,6 @@ using UnityEngine;
 public interface IPlayer
 {
     public static Action<Vector3> OnMove;
+
+    public void AddShipElement(IShipElement element);
 }
