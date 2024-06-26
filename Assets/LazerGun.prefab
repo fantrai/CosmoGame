@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f994604854268794ab30544594c0b4da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 0.5
+  cooldown: 1
   nameElement: laze
   descriptionElement: gunn

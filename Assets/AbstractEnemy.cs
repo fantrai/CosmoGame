@@ -18,7 +18,7 @@ public class AbstractEnemy : AbstractEntity
 
     void TargetUpdate(Vector3 target)
     {
-        targetPos = target;
+        targetPos = (target - transform.position).normalized;
     }
 
     protected override void Movement()

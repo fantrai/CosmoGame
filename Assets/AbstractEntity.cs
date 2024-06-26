@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,18 +13,14 @@ public abstract class AbstractEntity : MonoBehaviour, IEntity
     protected int Hp { get => hp;
         set 
         {
-            value -= defence;
-            if (value <= 0)
-            {
-                return;
-            }
             hp = value;
             if (hp <= 0)
             {
-                Dead();
+                StartCoroutine(Dead());
             }
         } 
     }
+
     protected virtual void FixedUpdate()
     {
         Movement();
@@ -31,14 +28,19 @@ public abstract class AbstractEntity : MonoBehaviour, IEntity
 
     protected abstract void Movement();
 
-    protected virtual void Dead()
+    protected IEnumerator Dead()
     {
+        yield return new WaitForFixedUpdate();
         Destroy(gameObject);
     }
 
     public virtual void TakeDamage(int damage)
     {
-        Hp -= damage;
+        damage -= defence;
+        if (damage > 0)
+        {
+            Hp -= damage;
+        }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -51,6 +53,4 @@ public abstract class AbstractEntity : MonoBehaviour, IEntity
             }
         }
     }
-
-    сделали контактный урон. делаем врагов дальше
 }

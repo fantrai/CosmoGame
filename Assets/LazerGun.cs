@@ -6,6 +6,5 @@ public class LazerGun : AbstractShipElement
 {
     protected override void Effect()
     {
-        Debug.Log("Piu!!!!");
     }
 }

@@ -5,10 +5,23 @@ using UnityEngine;
 
 abstract public class AbstractPlayer : AbstractEntity, IPlayer
 {
-    const string savelayerName = "SavePlayer";
-    const string defoultlayerName = "Player";
+    int saveLayer = 6;
+    int defoultLayer;
 
     public List<IShipElement> ShipElements { get; set; } = new List<IShipElement>();
+
+    int IPlayer.Iron { get; set; } = 0;
+    int IPlayer.Plastic { get; set; } = 0;
+    int IPlayer.Aluminum { get; set; } = 0;
+    int IPlayer.Tungsten { get; set; } = 0;
+    int IPlayer.FuelCell { get; set; } = 0;
+    int IPlayer.EnergyBattery { get; set; } = 0;
+    int IPlayer.SolarPlate { get; set; } = 0;
+    int IPlayer.ControlUnit { get; set; } = 0;
+    int IPlayer.LongAntenna { get; set; } = 0;
+    int IPlayer.Copper { get; set; } = 0;
+    int IPlayer.Gold { get; set; } = 0;
+
     [SerializeField] AbstractShipElement startElement;
     [SerializeField, Min(0)] protected float secondsNotTakeDamage = 0.1f;
 
@@ -16,6 +29,7 @@ abstract public class AbstractPlayer : AbstractEntity, IPlayer
     {
         GameManager.M.player = this;
         ShipElements.Add(startElement.StartUse(transform));
+        defoultLayer = gameObject.layer;
     }
 
     protected override void Movement()
@@ -42,13 +56,18 @@ abstract public class AbstractPlayer : AbstractEntity, IPlayer
     public override void TakeDamage(int damage)
     {
         base.TakeDamage(damage);
-        gameObject.layer = SortingLayer.NameToID(savelayerName);
+        StartCoroutine(NotDamage());
     }
 
     protected IEnumerator NotDamage()
     {
-        gameObject.layer = SortingLayer.NameToID(savelayerName);
+        gameObject.layer = saveLayer;
         yield return new WaitForSeconds(secondsNotTakeDamage);
-        gameObject.layer = SortingLayer.NameToID(defoultlayerName);
+        gameObject.layer = defoultLayer;
+    }
+
+    void IPlayer.AddShipElement(IShipElement element)
+    {
+        throw new NotImplementedException();
     }
 }
