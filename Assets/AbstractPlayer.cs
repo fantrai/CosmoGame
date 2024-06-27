@@ -3,33 +3,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-abstract public class AbstractPlayer : AbstractEntity, IPlayer
+public abstract class AbstractPlayer : AbstractEntity, IPlayer
 {
     int saveLayer = 6;
     int defoultLayer;
 
-    public List<IShipElement> ShipElements { get; set; } = new List<IShipElement>();
-
-    int IPlayer.Iron { get; set; } = 0;
-    int IPlayer.Plastic { get; set; } = 0;
-    int IPlayer.Aluminum { get; set; } = 0;
-    int IPlayer.Tungsten { get; set; } = 0;
-    int IPlayer.FuelCell { get; set; } = 0;
-    int IPlayer.EnergyBattery { get; set; } = 0;
-    int IPlayer.SolarPlate { get; set; } = 0;
-    int IPlayer.ControlUnit { get; set; } = 0;
-    int IPlayer.LongAntenna { get; set; } = 0;
-    int IPlayer.Copper { get; set; } = 0;
-    int IPlayer.Gold { get; set; } = 0;
+    protected List<IShipElement> shipElements = new List<IShipElement>();
+    protected Dictionary<EnamMatherials, int> matherials = new Dictionary<EnamMatherials, int>();
 
     [SerializeField] AbstractShipElement startElement;
     [SerializeField, Min(0)] protected float secondsNotTakeDamage = 0.1f;
+    [SerializeField] CircleCollider2D takeMatherialCollider;
 
     private void Awake()
     {
         GameManager.M.player = this;
-        ShipElements.Add(startElement.StartUse(transform));
+        shipElements.Add(startElement.StartUse(transform));
         defoultLayer = gameObject.layer;
+    }
+
+    private void OnEnable()
+    {
+        IPlayer.OnAddShipElement += AddShipElement;
+    }
+
+    private void OnDisable()
+    {
+        IPlayer.OnAddShipElement -= AddShipElement;
     }
 
     protected override void Movement()
@@ -42,15 +42,15 @@ abstract public class AbstractPlayer : AbstractEntity, IPlayer
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
-        foreach (var shipElement in ShipElements)
+        foreach (var shipElement in shipElements)
         {
             shipElement.TimeAfterCooldown += Time.fixedDeltaTime;
         }
     }
 
-    public void AddShipElement(IShipElement element)
+    protected void AddShipElement(IShipElement element)
     {
-        ShipElements.Add(element);
+        shipElements.Add(element);
     }
 
     public override void TakeDamage(int damage)
@@ -66,8 +66,31 @@ abstract public class AbstractPlayer : AbstractEntity, IPlayer
         gameObject.layer = defoultLayer;
     }
 
-    void IPlayer.AddShipElement(IShipElement element)
+    protected void AddMatherial(IMatherial matherial)
     {
-        throw new NotImplementedException();
+        if (matherials.ContainsKey(matherial.Matherial))
+        {
+            matherials[matherial.Matherial]++;
+        }
+        else
+        {
+            matherials.Add(matherial.Matherial, 1);
+        }
+        Debug.Log($"добавлено: {matherial.Matherial}");
+        if(IPlayer.OnUpdateMatherial != null)
+            IPlayer.OnUpdateMatherial(matherial.Matherial, matherials[matherial.Matherial]);
+    }
+
+    protected override void OnTriggerStay2D(Collider2D collision)
+    {
+        base.OnTriggerStay2D(collision);
+        if (collision.IsTouching(takeMatherialCollider))
+        {
+            if (collision.gameObject.TryGetComponent(out IMatherial takeMatherial))
+            {
+                AddMatherial(takeMatherial);
+                takeMatherial.StartAnim(transform);
+            }
+        }
     }
 }
