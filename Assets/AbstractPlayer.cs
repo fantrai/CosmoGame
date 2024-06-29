@@ -15,7 +15,7 @@ public abstract class AbstractPlayer : AbstractEntity, IPlayer
     [SerializeField, Min(0)] protected float secondsNotTakeDamage = 0.1f;
     [SerializeField] CircleCollider2D takeMatherialCollider;
 
-    private void Awake()
+    private void Start()
     {
         GameManager.M.player = this;
         shipElements.Add(startElement.StartUse(transform));

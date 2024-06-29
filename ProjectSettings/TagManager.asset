@@ -17,7 +17,7 @@ TagManager:
   - Matherials
   - Weapon
   - SpawnZone
-  - 
+  - Planet
   - 
   - 
   - 
@@ -40,4 +40,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: UI
+    uniqueID: 2340789683
     locked: 0

@@ -28,7 +28,7 @@ public abstract class AbstractEntity : MonoBehaviour, IEntity
 
     protected abstract void Movement();
 
-    protected IEnumerator Dead()
+    protected virtual IEnumerator Dead()
     {
         yield return new WaitForFixedUpdate();
         Destroy(gameObject);

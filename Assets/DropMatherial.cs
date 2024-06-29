@@ -8,7 +8,7 @@ public class DropMatherial : MonoBehaviour
     [SerializeField, Min(0)] int minCount = 0;
     [SerializeField, Min(0)] int maxCount = 0;
 
-    private void OnDestroy()
+    public void Drop()
     {
         if (maxCount < minCount) Debug.LogWarning("Не правильно проставлены значения в объекте " + gameObject.name);
         int count = Random.Range(minCount, maxCount);
