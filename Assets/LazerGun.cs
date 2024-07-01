@@ -2,9 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LazerGun : AbstractShipElement
+public class LazerGun : AbstractWeapon
 {
-    protected override void Effect()
-    {
-    }
 }

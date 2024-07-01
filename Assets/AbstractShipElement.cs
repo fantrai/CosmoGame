@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class AbstractShipElement : MonoBehaviour, IShipElement
 {
-    [SerializeField, Min(0.001f)] protected float cooldown = 1;
+    [SerializeField] protected float cooldown = 1;
 
 	float timeAfterCooldown;
 	public float TimeAfterCooldown
@@ -13,12 +13,15 @@ public abstract class AbstractShipElement : MonoBehaviour, IShipElement
 		set 
 		{ 
 			timeAfterCooldown = value;
-			while (timeAfterCooldown > cooldown)
+			if (cooldown > 0)
 			{
-                Effect();
-                timeAfterCooldown -= cooldown;
+                while (timeAfterCooldown > cooldown)
+                {
+                    Effect();
+                    timeAfterCooldown -= cooldown;
+                }
             }
-		}
+        }
 	}
 
 	[SerializeField] protected string nameElement;

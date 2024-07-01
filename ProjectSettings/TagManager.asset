@@ -41,6 +41,21 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Planets
+    uniqueID: 2480910677
+    locked: 0
+  - name: Matherials
+    uniqueID: 2829947629
+    locked: 0
+  - name: Bullets
+    uniqueID: 2344517513
+    locked: 0
+  - name: Enemys
+    uniqueID: 230694399
+    locked: 0
+  - name: Player
+    uniqueID: 264246295
+    locked: 0
   - name: UI
     uniqueID: 2340789683
     locked: 0

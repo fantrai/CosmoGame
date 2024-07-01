@@ -20,7 +20,7 @@ public class MapCreator : MonoBehaviour
     void ReCreate()
     {
         int child = transform.childCount - 1;
-        for (int i = child; i >= 0; i--)
+        for (int i = transform.childCount - 1; i >= 0; i--)
         {
             DestroyImmediate(transform.GetChild(i).gameObject);
         }

@@ -31,10 +31,13 @@ public abstract class AbstractPlanet : MonoBehaviour, IPlanet
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.TryGetComponent(out IPlayer player))
+        if (!collision.IsTouching(controlZoneCollider))
         {
-            IPlayer.OnMove -= UpdatePlayerPos;
-            StopCoroutine(spawnCorutine);
+            if (collision.gameObject.TryGetComponent(out IPlayer player))
+            {
+                IPlayer.OnMove -= UpdatePlayerPos;
+                StopCoroutine(spawnCorutine);
+            }
         }
     }
 
@@ -49,14 +52,14 @@ public abstract class AbstractPlanet : MonoBehaviour, IPlanet
         {
             if (spawnRateMod != 0)
             {
-                yield return new WaitForSeconds(60 / SPAWN_MOBS_PER_SECOND * spawnRateMod);
+                yield return new WaitForSeconds(60 / (SPAWN_MOBS_PER_SECOND * spawnRateMod));
             }
             else
             {
                 yield return new WaitForSeconds(1);
                 continue;
             }
-            float radScreen = Camera.main.orthographicSize * Screen.width / Screen.height;
+            float radScreen = Camera.main.orthographicSize * 2 * (Screen.width / Screen.height);
 
             var random = new System.Random();
             int degree = random.Next(0, 360);

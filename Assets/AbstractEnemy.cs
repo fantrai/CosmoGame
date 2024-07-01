@@ -1,13 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public abstract class AbstractEnemy : AbstractEntity
+public abstract class AbstractEnemy : AbstractEntity, IEnemy
 {
-    public const float DESPAWN_DISTANCE = 30;
+    public static float despawnDistance = 30;
 
-    Vector3 targetPos = Vector3.zero;
+   Vector3 targetPos = Vector3.zero;
+
+    private void Start()
+    {
+        despawnDistance = Camera.main.orthographicSize * 4 * (Screen.width / Screen.height);
+    }
 
     private void OnEnable()
     {
@@ -21,13 +27,17 @@ public abstract class AbstractEnemy : AbstractEntity
 
     void TargetUpdate(Vector3 target)
     {
-        targetPos = (target - transform.position).normalized;
+        targetPos = target;
     }
 
     protected override void Movement()
     {
-        transform.Translate(targetPos * movementSpeed);
-        if (Vector2.Distance(transform.position, targetPos) >= DESPAWN_DISTANCE)
+        Vector2 pos = targetPos - transform.position;
+        var angle = Mathf.Atan2(pos.y, pos.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        transform.Translate(pos.normalized * movementSpeed, Space.World);
+        if (Vector2.Distance(targetPos, transform.position) >= despawnDistance)
         {
             Despawn();
         }

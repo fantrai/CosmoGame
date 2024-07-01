@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 3179334834897564398}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.74667114, y: 0.062188745, z: -0.021253705}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -47,3 +47,4 @@ MonoBehaviour:
   cooldown: 1
   nameElement: laze
   descriptionElement: gunn
+  bulletPrefab: {fileID: 5975133751452125634, guid: df97446c6d7e9ba468917eb009cd197d, type: 3}

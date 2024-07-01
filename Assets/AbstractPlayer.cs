@@ -15,6 +15,8 @@ public abstract class AbstractPlayer : AbstractEntity, IPlayer
     [SerializeField, Min(0)] protected float secondsNotTakeDamage = 0.1f;
     [SerializeField] CircleCollider2D takeMatherialCollider;
 
+    public int MaxCountItemOneType { get; set; }
+
     private void Start()
     {
         GameManager.M.player = this;
@@ -35,7 +37,13 @@ public abstract class AbstractPlayer : AbstractEntity, IPlayer
     protected override void Movement()
     {
         var joystick = GameManager.M.joystick;
-        transform.Translate(new Vector2(joystick.Horizontal, joystick.Vertical) * movementSpeed);
+        transform.Translate(new Vector2(joystick.Horizontal, joystick.Vertical) * movementSpeed, Space.World);
+        if (joystick.Direction != Vector2.zero)
+        {
+            var angle = Mathf.Atan2(joystick.Vertical, joystick.Horizontal) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, angle);
+        }
+
         IPlayer.OnMove(transform.position);
     }
 
@@ -68,17 +76,17 @@ public abstract class AbstractPlayer : AbstractEntity, IPlayer
 
     protected void AddMatherial(IMatherial matherial)
     {
-        if (matherials.ContainsKey(matherial.Matherial))
+        if (!matherials.ContainsKey(matherial.Matherial))
+        {
+            matherials.Add(matherial.Matherial, 0);
+        }
+        if (matherials[matherial.Matherial] < MaxCountItemOneType)
         {
             matherials[matherial.Matherial]++;
+            Debug.Log($"добавлено: {matherial.Matherial}");
         }
-        else
-        {
-            matherials.Add(matherial.Matherial, 1);
-        }
-        Debug.Log($"добавлено: {matherial.Matherial}");
-        if(IPlayer.OnUpdateMatherial != null)
-            IPlayer.OnUpdateMatherial(matherial.Matherial, matherials[matherial.Matherial]);
+        if (IPlayer.OnUpdateMatherial != null)
+            IPlayer.OnUpdateMatherial(matherial, matherials[matherial.Matherial]);
     }
 
     protected override void OnTriggerStay2D(Collider2D collision)
