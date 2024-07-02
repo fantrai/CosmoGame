@@ -8,9 +8,11 @@ public class Matherial : MonoBehaviour, IMatherial
     float destroyRange = 0.5f;
     float flySpeed = 0.3f;
 
-    [SerializeField] protected EnamMatherials matherial;
+    [SerializeField] protected EnumMatherials matherial;
 
-    EnamMatherials IMatherial.Matherial { get => matherial; set => matherial = value; }
+    EnumMatherials IMatherial.Matherial { get => matherial; set => matherial = value; }
+
+    public Sprite Ico => GetComponent<SpriteRenderer>().sprite;
 
     public void StartAnim(Transform target)
     {

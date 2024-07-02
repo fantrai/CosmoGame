@@ -9,13 +9,13 @@ public abstract class AbstractPlayer : AbstractEntity, IPlayer
     int defoultLayer;
 
     protected List<IShipElement> shipElements = new List<IShipElement>();
-    protected Dictionary<EnamMatherials, int> matherials = new Dictionary<EnamMatherials, int>();
+    protected Dictionary<EnumMatherials, int> matherials = new Dictionary<EnumMatherials, int>();
 
     [SerializeField] AbstractShipElement startElement;
     [SerializeField, Min(0)] protected float secondsNotTakeDamage = 0.1f;
     [SerializeField] CircleCollider2D takeMatherialCollider;
 
-    public int MaxCountItemOneType { get; set; }
+    public int MaxCountItemOneType { get; set; } = 100;
 
     private void Start()
     {
@@ -83,7 +83,6 @@ public abstract class AbstractPlayer : AbstractEntity, IPlayer
         if (matherials[matherial.Matherial] < MaxCountItemOneType)
         {
             matherials[matherial.Matherial]++;
-            Debug.Log($"добавлено: {matherial.Matherial}");
         }
         if (IPlayer.OnUpdateMatherial != null)
             IPlayer.OnUpdateMatherial(matherial, matherials[matherial.Matherial]);

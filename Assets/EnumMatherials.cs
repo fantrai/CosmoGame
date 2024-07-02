@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EnamMatherials
+public enum EnumMatherials
 {
     Iron,
     Plastic,

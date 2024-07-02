@@ -4,7 +4,9 @@ using UnityEngine;
 
 public interface IMatherial
 {
-    public EnamMatherials Matherial { get; protected set; }
+    public EnumMatherials Matherial { get; protected set; }
 
     public void StartAnim(Transform target);
+
+    public Sprite Ico { get; }
 }

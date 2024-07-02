@@ -18,7 +18,7 @@ TagManager:
   - Weapon
   - SpawnZone
   - Planet
-  - 
+  - PlayerBase
   - 
   - 
   - 
@@ -43,6 +43,9 @@ TagManager:
     locked: 0
   - name: Planets
     uniqueID: 2480910677
+    locked: 0
+  - name: PlayerBase
+    uniqueID: 820302771
     locked: 0
   - name: Matherials
     uniqueID: 2829947629
