@@ -44,7 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f994604854268794ab30544594c0b4da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 1
+  cooldown: 0.1
   nameElement: laze
   descriptionElement: gunn
   bulletPrefab: {fileID: 5975133751452125634, guid: df97446c6d7e9ba468917eb009cd197d, type: 3}
+  damage: 1
+  speed: 1
+  piercing: 90
+  distance: 30

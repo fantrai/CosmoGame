@@ -5,8 +5,8 @@ using UnityEngine;
 
 public abstract class AbstractPlayer : AbstractEntity, IPlayer
 {
-    int saveLayer = 6;
-    int defoultLayer;
+    static int saveLayer = 6;
+    static int defoultLayer;
 
     protected List<IShipElement> shipElements = new List<IShipElement>();
     protected Dictionary<EnumMatherials, int> matherials = new Dictionary<EnumMatherials, int>();
@@ -14,8 +14,10 @@ public abstract class AbstractPlayer : AbstractEntity, IPlayer
     [SerializeField] AbstractShipElement startElement;
     [SerializeField, Min(0)] protected float secondsNotTakeDamage = 0.1f;
     [SerializeField] CircleCollider2D takeMatherialCollider;
-
+    [SerializeField] AbstractPlayerBase playerBasePrefab;
+ 
     public int MaxCountItemOneType { get; set; } = 100;
+    Dictionary<EnumMatherials, int> IPlayer.Matherials { get => matherials; }
 
     private void Start()
     {
@@ -27,11 +29,21 @@ public abstract class AbstractPlayer : AbstractEntity, IPlayer
     private void OnEnable()
     {
         IPlayer.OnAddShipElement += AddShipElement;
+        IPlayer.OnCreateBase += CreateBase;
     }
 
     private void OnDisable()
     {
         IPlayer.OnAddShipElement -= AddShipElement;
+        IPlayer.OnCreateBase -= CreateBase;
+    }
+
+    void CreateBase()
+    {
+        if (IPlayerBase.Status == EnumStatusPlayerBase.None)
+        {
+            Instantiate(playerBasePrefab, transform.position, playerBasePrefab.transform.rotation);
+        }
     }
 
     protected override void Movement()
